@@ -1,15 +1,16 @@
-import shutil
 import warnings
-import time
-
-import gaifo_model
-import datasets
-import metaworld_env
 
 warnings.filterwarnings('ignore', category=DeprecationWarning)
 import os
 os.environ['MKL_SERVICE_FORCE_INTEL'] = '1'
 os.environ['MUJOCO_GL'] = 'egl'
+
+import shutil
+
+import time
+
+import gaifo_model
+import datasets
 
 import random
 from pathlib import Path
@@ -29,6 +30,8 @@ from video import TrainVideoRecorder, VideoRecorder
 from dm_env import specs
 import dmc
 import drqv2
+
+import metaworld_env
 
 def _worker_init_fn(worker_id):
     seed = np.random.get_state()[1][0] + worker_id
