@@ -7,6 +7,9 @@ import datasets
 import metaworld_env
 
 warnings.filterwarnings('ignore', category=DeprecationWarning)
+import os
+os.environ['MKL_SERVICE_FORCE_INTEL'] = '1'
+os.environ['MUJOCO_GL'] = 'egl'
 
 import random
 from pathlib import Path
