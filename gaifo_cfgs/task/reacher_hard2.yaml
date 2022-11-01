@@ -1,0 +1,14 @@
+defaults:
+  - medium
+  - _self_
+
+task_name: reacher_hard
+exp_group: reacher_hard2
+
+video_dir: videos/${exp_group}/exp
+xml_path: domain_xmls/reacher.xml
+
+episode_len: 60
+
+context_changer:
+  _target_: context_changers.ReacherHardWCContextChanger

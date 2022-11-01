@@ -1,0 +1,9 @@
+defaults:
+  - easy
+  - _self_
+
+task_name: door-open-v2
+meta_world: true
+
+exp_group: door_open
+

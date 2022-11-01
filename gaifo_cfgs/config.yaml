@@ -1,0 +1,76 @@
+defaults:
+  - _self_
+  - task@_global_: reacher_hard2
+  - override hydra/launcher: submitit_local
+
+im_w: 64
+im_h: 64
+
+# task settings
+frame_stack: 3
+action_repeat: 2
+discount: 0.99
+episode_len: 60
+# train settings
+num_seed_frames: 4000
+nb_frame: 2
+
+# eval
+eval_every_frames: 10000
+train_discriminator_every_frames: 100
+num_discriminator_train_frames: 3100000
+max_num_discriminator_videos: 5000
+num_eval_episodes: 5
+disc_batch_size: 256
+# snapshot
+save_snapshot: true
+# replay buffer
+replay_buffer_size: 100000
+replay_buffer_num_workers: 4
+nstep: 3
+batch_size: 256
+# misc
+seed: 1
+save_video: true
+save_train_video: false
+use_tb: true
+# experiment
+experiment: exp
+# agent
+lr: 1e-4
+feature_dim: 50
+
+device: cuda
+
+agent:
+  _target_: drqv2.DrQV2Agent
+  obs_shape: ??? # to be specified later
+  action_shape: ??? # to be specified later
+  lr: ${lr}
+  critic_target_tau: 0.01
+  update_every_steps: 2
+  use_tb: ${use_tb}
+  num_expl_steps: 2000
+  hidden_dim: 1024
+  feature_dim: ${feature_dim}
+  stddev_schedule: ${stddev_schedule}
+  stddev_clip: 0.3
+
+
+exp_group: ${now:%Y.%m.%d}
+exp_id: ${now:%H%M%S}
+
+hydra:
+  run:
+    dir: ./gaifo_exp_local/${exp_group}/${exp_id}
+  sweep:
+    dir: ./exp/${now:%Y.%m.%d}/${now:%H%M}_${agent_cfg.experiment}
+    subdir: ${hydra.job.num}
+  launcher:
+    timeout_min: 4300
+    cpus_per_task: 10
+    gpus_per_node: 1
+    tasks_per_node: 1
+    mem_gb: 160
+    nodes: 1
+    submitit_folder: ./exp/${now:%Y.%m.%d}/${now:%H%M%S}_${agent_cfg.experiment}/.slurm

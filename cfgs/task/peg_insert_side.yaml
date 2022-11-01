@@ -1,0 +1,9 @@
+defaults:
+  - medium
+  - _self_
+
+task_name: peg-insert-side-v2
+meta_world: true
+
+exp_group: peg_insert_side
+

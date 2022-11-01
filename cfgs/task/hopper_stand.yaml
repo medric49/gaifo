@@ -1,0 +1,7 @@
+defaults:
+  - easy
+  - _self_
+
+task_name: hopper_stand
+
+exp_group: hopper_stand

@@ -1,0 +1,7 @@
+defaults:
+  - medium
+  - _self_
+
+task_name: manipulator_bring_ball
+xml_path: ???
+

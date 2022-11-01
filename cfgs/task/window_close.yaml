@@ -1,0 +1,9 @@
+defaults:
+  - medium
+  - _self_
+
+task_name: window-close-v2
+meta_world: true
+
+exp_group: window_close
+

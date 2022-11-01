@@ -1,0 +1,6 @@
+defaults:
+  - easy
+  - _self_
+
+task_name: finger_spin
+xml_path: domain_xmls/finger.xml
