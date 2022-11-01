@@ -1,0 +1,13 @@
+defaults:
+  - medium
+  - _self_
+
+task_name: walker_run
+exp_group: walker_run
+
+video_dir: videos/${exp_group}/exp
+
+episode_len: 60
+
+context_changer:
+  _target_: context_changers.NullContextChanger

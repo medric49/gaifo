@@ -42,4 +42,4 @@ if __name__ == '__main__':
     env = dmc.make(env_name, frame_stack=3, action_repeat=2, seed=2, episode_len=episode_len, xml_path=xml_file)
     video_dir = Path(f'videos/{args.video_dir if args.video_dir is not None else task_name }')
     utils.generate_video_from_expert(
-        video_dir / 'exp/0', expert, env, cc_class(), cam_ids=[0], num=args.num_train, im_w=im_w, im_h=im_h)
+        video_dir / 'exp/0', expert, env, cc_class(), num=args.num_train, im_w=im_w, im_h=im_h)
