@@ -1,4 +1,3 @@
-import os
 import shutil
 import warnings
 import time
@@ -16,16 +15,17 @@ import hydra
 import numpy as np
 import torch
 import torch.utils.data
-from dm_env import specs
+
 from hydra.utils import to_absolute_path
 
-import dmc
-import drqv2
 import utils
 from logger import Logger
 from replay_buffer import ReplayBufferStorage, make_replay_loader
 from video import TrainVideoRecorder, VideoRecorder
 
+from dm_env import specs
+import dmc
+import drqv2
 
 def _worker_init_fn(worker_id):
     seed = np.random.get_state()[1][0] + worker_id

@@ -1,23 +1,22 @@
 from collections import deque
 from typing import Any, NamedTuple
 
-import dm_env
 import numpy as np
 import torch
-from PIL import Image
-from numpy.linalg import norm
 
-import context_changers
-import datasets
+
+
 import gaifo_model
 import utils
+from hydra.utils import to_absolute_path
+
+import dm_env
+from dm_env import StepType, specs
+from dm_env._environment import TimeStep
 
 from dm_control import manipulation, suite
 from dm_control.suite.wrappers import action_scale, pixels
-from dm_env import StepType, specs
-from dm_env._environment import TimeStep
-from hydra.utils import to_absolute_path
-
+import context_changers
 
 
 class ExtendedTimeStep(NamedTuple):
