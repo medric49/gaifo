@@ -247,3 +247,27 @@ def context_indices(T, context_width=1):
     nc_t = random.choice(nc_list)
 
     return t, c_t, nc_t
+
+
+class RGB2Lab(object):
+    def __call__(self, img):
+        img = np.asarray(img, np.uint8)
+        img = color.rgb2lab(img)
+        return img
+
+
+class Lab2RGB(object):
+    def __call__(self, img):
+        img = color.lab2rgb(img) * 255.
+        img = np.asarray(img, np.uint8)
+        return img
+
+
+def rgb_to_lab(img, normalize=True):
+    lab = RGB2Lab()
+    img = lab(img)
+    if normalize:
+        mean = np.array([(0 + 100) / 2, (-86.183 + 98.233) / 2, (-107.857 + 94.478) / 2])
+        std = np.array([(100 - 0) / 2, (86.183 + 98.233) / 2, (107.857 + 94.478) / 2])
+        img = (img - mean) / std
+    return img

@@ -49,8 +49,11 @@ class VideoDataset(torch.utils.data.IterableDataset):
         if tuple(video_2.shape[1:3]) != (self.im_h, self.im_w):
             video_2 = VideoDataset.resize(video_2, self.im_w, self.im_h)
 
-        step_1 = np.concatenate(list(video_1), axis=2).transpose(2, 0, 1)  # h x w x 3*nb
-        step_2 = np.concatenate(list(video_2), axis=2).transpose(2, 0, 1)
+        video_1 = VideoDataset.rgb_to_lab(video_1)[:, :, :, 0:1]  # keep L space
+        video_2 = VideoDataset.rgb_to_lab(video_2)[:, :, :, 0:1]  # keep L space
+
+        step_1 = np.concatenate(list(video_1), axis=2).transpose(2, 0, 1)  # h x w x nb
+        step_2 = np.concatenate(list(video_2), axis=2).transpose(2, 0, 1)  # h x w x nb
 
         return step_1, step_2
 
@@ -81,6 +84,11 @@ class VideoDataset(torch.utils.data.IterableDataset):
         if tuple(frames.shape[1:3]) != (im_h, im_w):
             frames = VideoDataset.resize(frames, im_w, im_h)
         return frames
+
+    @staticmethod
+    def rgb_to_lab(video):
+        T = video.shape[0]
+        return np.array([utils.rgb_to_lab(video[t]) for t in range(T)], dtype=np.float32)
 
 
     def __iter__(self) -> Iterator[T_co]:

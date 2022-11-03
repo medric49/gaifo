@@ -17,6 +17,7 @@ from dm_env._environment import TimeStep
 from dm_control import manipulation, suite
 from dm_control.suite.wrappers import action_scale, pixels
 import context_changers
+from datasets import VideoDataset
 
 
 class ExtendedTimeStep(NamedTuple):
@@ -147,17 +148,17 @@ class RewardComputeStackWrapper(dm_env.Environment):
     def compute_obs_and_rewards(self):
         self.discriminator.eval()
         agent_obs = np.array(self.agent_obs, dtype=np.uint8)
-        T = agent_obs.shape[0]
+        for t in range(0, self.nb_frame - 1):
+            np.insert(agent_obs, 0, agent_obs[0].copy(), axis=0)
+        agent_obs = VideoDataset.rgb_to_lab(agent_obs)[:, :, :, 0:1]
         transitions = []
-        for t in range(0, T - self.nb_frame + 1):
+        for t in range(0, agent_obs.shape[0] - self.nb_frame + 1):
             transitions.append(np.concatenate([agent_obs[i] for i in range(t, t+self.nb_frame)], axis=2))
         transitions = np.array(transitions).transpose((0, 3, 1, 2))
-
         with torch.no_grad():
             transitions = torch.tensor(transitions, dtype=torch.float, device=utils.device())
             prob = self.discriminator(transitions).view((-1,))
-            prob = -torch.log(prob).cpu().numpy()
-            rewards = np.array([0.] + list(prob))
+            rewards = -torch.log(prob).cpu().numpy()
         return rewards, agent_obs
 
     def reset(self) -> TimeStep:

@@ -8,8 +8,7 @@ import utils
 class Discriminator(nn.Module):
     def __init__(self, nb_frames, lr):
         super(Discriminator, self).__init__()
-
-        self.discriminator_net = nets.ConvNet(nb_frames * 3)
+        self.discriminator_net = nets.ConvNet(nb_frames)
         self.optimizer = torch.optim.Adam(self.discriminator_net.parameters(), lr=lr)
         self.criterion = nn.BCELoss()
 

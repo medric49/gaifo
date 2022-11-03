@@ -13,7 +13,7 @@ discount: 0.99
 episode_len: 60
 # train settings
 num_seed_frames: 4000
-nb_frame: 2
+nb_frame: 3
 
 # eval
 eval_every_frames: 10000

@@ -1,4 +1,3 @@
-import torch
 from torch import nn
 
 
@@ -32,7 +31,6 @@ class ConvNet(nn.Module):
         )
 
     def forward(self, obs):
-        obs /= 255.
         e = self.network(obs)
         e = e.view(e.shape[0], e.shape[1])
         return e
