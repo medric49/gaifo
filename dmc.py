@@ -148,11 +148,11 @@ class RewardComputeStackWrapper(dm_env.Environment):
     def compute_obs_and_rewards(self):
         self.discriminator.eval()
         agent_obs = np.array(self.agent_obs, dtype=np.uint8)
-        for t in range(0, self.nb_frame - 1):
-            np.insert(agent_obs, 0, agent_obs[0].copy(), axis=0)
+        for t in range(self.nb_frame - 1):
+            agent_obs = np.insert(agent_obs, 0, agent_obs[0].copy(), axis=0)
         agent_obs = VideoDataset.rgb_to_lab(agent_obs)[:, :, :, 0:1]
         transitions = []
-        for t in range(0, agent_obs.shape[0] - self.nb_frame + 1):
+        for t in range(0, agent_obs.shape[0] - (self.nb_frame - 1)):
             transitions.append(np.concatenate([agent_obs[i] for i in range(t, t+self.nb_frame)], axis=2))
         transitions = np.array(transitions).transpose((0, 3, 1, 2))
         with torch.no_grad():
